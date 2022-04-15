@@ -3,7 +3,7 @@ import React from 'react'; // , {useContext}
 // import AuthContext from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-import { LoginWrapper, Form, InputGroup, SubmitButton } from '../components/LoginStyles';
+import { LoginWrapper, Form, InputGroup, SubmitButton } from '../styles/LoginStyles';
 
 
 

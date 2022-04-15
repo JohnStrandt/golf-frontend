@@ -3,12 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from './context/AuthContext';
 import useLocalStorage from "use-local-storage";
 import PrivateRoute from "./utils/PrivateRoute";
-import { Home, Login, Reset, Register, Match } from "./pages";
-import { Footer } from "./components";
-
-import { Provider } from "react-redux";
-import store from './redux/store'
-
+import { Home, Reset, Register, Match } from "./pages";
+import { Footer, Login } from "./components";
 
 
 function App() {
@@ -20,8 +16,7 @@ function App() {
   }
 
   return (
-    <div app-theme={theme} >
-      <Provider store={store}>
+    <main app-theme={theme} >
         <Router>
           <AuthProvider>
             <Routes>
@@ -40,8 +35,7 @@ function App() {
             <Footer toggleTheme={toggleTheme} theme={theme}/>
           </AuthProvider>
         </Router>
-      </Provider>
-    </div>
+    </main>
   );
 }
 

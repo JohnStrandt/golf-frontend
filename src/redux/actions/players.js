@@ -1,6 +1,6 @@
 import {
   FETCH_PLAYERS
-} from "../types";
+} from "./types";
 
 import axios from "axios";
 import { playersURL } from "../../urls";
@@ -13,7 +13,7 @@ export const loadPlayers = (access) => async (dispatch) => {
   }
 
   const leagueData = await axios.get(playersURL, config);
-  // console.log(leagueData.data);
+  
   dispatch({
     type: FETCH_PLAYERS,
     payload: {

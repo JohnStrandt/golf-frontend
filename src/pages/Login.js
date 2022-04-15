@@ -11,7 +11,7 @@ import {
   CardButtons,
   NavButtons,
   SubmitButton
-} from "../components/LoginStyles";
+} from "../styles/LoginStyles";
 
 
 
@@ -25,7 +25,6 @@ const LoginPage = () => {
     // cursor goes to username right away
     userRef.current.focus();
   },[])
-
 
 
 

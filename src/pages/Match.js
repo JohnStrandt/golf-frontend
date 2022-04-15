@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadPlayers } from "../redux/actions/PlayersActions";
+import { loadPlayers } from "../redux/actions/players";
 
 import styled from "styled-components";
 import heroHole from "../images/heroHole.jpg";
@@ -12,38 +12,85 @@ import axios from "axios";
 
 import { tokenRefreshURL, apiURL, baseURL } from "../urls";
 
-const Match = () => {
-  const dispatch = useDispatch();
 
+// import { REFRESH_ACCESS } from "../redux/types";
+// import { refreshAccess } from "../redux/actions/auth";
+
+
+
+const Match = () => {
+  // const dispatch = useDispatch();
+  
+  
   const players = useSelector((state) => state.players.players);
 
-  console.log(players);
 
-  const { authTokens, setAuthTokens } = useContext(AuthContext);
+  //   useEffect(() => {
 
-  const axiosInstance = axios.create({
-    baseURL: apiURL,
-    headers: { Authorization: `Bearer ${authTokens?.access}` }
-  });
+  //   const checkTokens = async () => {
 
-  axiosInstance.interceptors.request.use(async (req) => {
-    const user = jwt_decode(authTokens.access);
-    const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
-    if (!isExpired) return req;
+  //     await dispatch(REFRESH_ACCESS);
 
-    const response = await axios.post(tokenRefreshURL, {
-      refresh: authTokens.refresh
-    });
 
-    localStorage.setItem("authTokens", JSON.stringify(response.data));
-    setAuthTokens(response.data);
-  });
+  //   }
 
-  useEffect(() => {
-    // console.log(authTokens.access);
-    dispatch(loadPlayers(authTokens?.access));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setAuthTokens]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+
+
+
+  // const { authTokens, setAuthTokens } = useContext(AuthContext);
+
+
+  // const refreshTokens = async () => {
+
+  //   const axiosInstance = axios.create({
+  //   baseURL: apiURL,
+  //   headers: { Authorization: `Bearer ${authTokens?.access}` }
+  //   });
+
+  //   axiosInstance.interceptors.request.use(async (req) => {
+  //     console.log("hello")
+  //     const user = jwt_decode(authTokens.access);
+  //     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
+
+  //     if (!isExpired) return req;
+  //     console.log("before axios")
+  //     const response = await axios.post(tokenRefreshURL, {
+  //       refresh: authTokens.refresh
+  //     });
+  //     console.log(response);
+
+  //     localStorage.setItem("authTokens", JSON.stringify(response.data));
+  //     setAuthTokens(response.data);
+  //     console.log("after setAuthTokens")
+  //     console.log(response.data)
+  //     return response.data;
+  //   });
+
+  // }
+
+
+  // useEffect(() => {
+  //   console.log("inside useEffect");
+  //   const checkTokens = async () => {
+
+  //     let tokens = await refreshTokens();
+  //     console.log(tokens)
+  //     // console.log(authTokens)
+  //     dispatch(loadPlayers(authTokens.access));
+  //   }
+
+  //   checkTokens();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+
+
+
+
+
 
   return (
     <Page>

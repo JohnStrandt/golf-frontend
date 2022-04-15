@@ -1,7 +1,7 @@
 
 import {
   FETCH_PLAYERS
-} from "../types";
+} from "../actions/types";
 
 const initState = {
   players: [],
@@ -10,8 +10,8 @@ const initState = {
 
 };
 
-export const playersReducer = (state = initState, action) => {
-  console.log(action.payload);
+export const players = (state = initState, action) => {
+  
   switch (action.type) {
   case FETCH_PLAYERS:
       return {
@@ -31,3 +31,5 @@ export const playersReducer = (state = initState, action) => {
       return state;
   }
 };
+
+export default players;

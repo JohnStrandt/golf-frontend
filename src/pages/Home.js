@@ -1,10 +1,12 @@
 
 import React, { useState, useEffect } from "react";
+// import { useDispatch } from 'react-redux'
 import styled from "styled-components";
 
 import { baseURL } from "../urls";
 import useAxios from '../utils/useAxios';
 import heroHole from '../images/heroHole.jpg'
+
 
 const Home = () => { 
   

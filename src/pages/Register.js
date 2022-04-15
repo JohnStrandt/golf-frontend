@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
-import { LoginWrapper, Form, InputGroup, CardButtons, NavButtons, SubmitButton } from '../components/LoginStyles';
+import { LoginWrapper, Form, InputGroup, CardButtons, NavButtons, SubmitButton } from '../styles/LoginStyles';
 
 
 

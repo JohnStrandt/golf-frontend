@@ -1,19 +1,15 @@
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import store from "./store";
+import GlobalStyles from "./styles/GlobalStyles";
+import App from "./App";
+import setupInterceptors from "./redux/services/setupInterceptors";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import GlobalStyles from "./components/GlobalStyles";
-import App from './App';
-
-const index = (
-
-  <div>
-    <React.StrictMode>
-      <GlobalStyles />  
-        <App />
-    </React.StrictMode>
-  </div>
+ReactDOM.render(
+  <Provider store={store}>
+    <GlobalStyles />
+    <App />
+  </Provider>,
+  document.getElementById("root")
 );
-
-
-ReactDOM.render(index, document.getElementById('root'));
+setupInterceptors(store);

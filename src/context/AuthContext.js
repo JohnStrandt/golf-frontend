@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
   const [authTokens, setAuthTokens] = useState(tokens ? JSON.parse(tokens) : null);
   const [user, setUser] = useState(tokens ? jwt_decode(tokens) : null);
 
-
   const [loading, setLoading] = useState(true);
 
 
