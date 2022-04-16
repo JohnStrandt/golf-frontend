@@ -1,5 +1,12 @@
 import api from "./api";
 
+
+const getPlayers = async () => {
+  const response = await api.get("/players/")
+  return response.data;
+};
+
+
 const getPublicContent = () => {
   return api.get("/test/all");
 };
@@ -17,6 +24,7 @@ const getAdminBoard = () => {
 };
 
 const UserService = {
+  getPlayers,
   getPublicContent,
   getUserBoard,
   getModeratorBoard,

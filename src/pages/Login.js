@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../context/AuthContext";
 import styled from "styled-components";
 import avatar from "../images/avatar.png";
 
@@ -17,7 +16,6 @@ import {
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { loginUser } = useContext(AuthContext);
   const userRef = useRef();
 
 
@@ -31,7 +29,7 @@ const LoginPage = () => {
   return (
     <LoginWrapper>
 
-      <LoginForm onSubmit={loginUser}>
+      <LoginForm onSubmit={console.log("submit")}>
         <img src={avatar} alt="avatar" />
         <h2>Login</h2>
 

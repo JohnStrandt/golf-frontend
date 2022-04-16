@@ -1,8 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 
-import AuthContext from "../context/AuthContext";
 import styled from "styled-components";
+
+import { logout } from "../redux/actions/auth"
 
 
 //        ICONS
@@ -22,8 +24,8 @@ import { IconContext } from "react-icons";
 
 
 const Footer = ({ toggleTheme, theme }) => {
+  const dispatch = useDispatch();
 
-  let { logoutUser } = useContext(AuthContext);
   let themeLabel;
   
   if (theme === "light") {
@@ -85,7 +87,7 @@ const Footer = ({ toggleTheme, theme }) => {
             </CustomLink>
 
             <CustomLink to="#"
-            onClick={logoutUser}
+            onClick={() => dispatch(logout())}
             active_icon={<AiOutlineLogout />}
             ><span>Logout</span>
             </CustomLink>

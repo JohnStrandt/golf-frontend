@@ -41,6 +41,7 @@ export const register = (first_name, last_name, username, email, password) => (d
 };
 
 export const login = (username, password) => (dispatch) => {
+
   return AuthService.login(username, password).then(
     (data) => {
       dispatch({
@@ -75,10 +76,10 @@ export const logout = () => (dispatch) => {
   });
 };
 
-export const refreshToken = (accessToken) => (dispatch) => {
+export const refreshToken = (access) => (dispatch) => {
   dispatch({
     type: REFRESH_TOKEN,
-    payload: accessToken,
+    payload: access,
   });
 };
 

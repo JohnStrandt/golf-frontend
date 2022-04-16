@@ -1,95 +1,16 @@
-import React, { useEffect, useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loadPlayers } from "../redux/actions/players";
+import React from "react";
+import { useSelector } from "react-redux";
 
 import styled from "styled-components";
 import heroHole from "../images/heroHole.jpg";
 
-import AuthContext from "../context/AuthContext";
-import jwt_decode from "jwt-decode";
-import dayjs from "dayjs";
-import axios from "axios";
-
-import { tokenRefreshURL, apiURL, baseURL } from "../urls";
-
-
-// import { REFRESH_ACCESS } from "../redux/types";
-// import { refreshAccess } from "../redux/actions/auth";
+import { baseURL } from "../urls";
 
 
 
 const Match = () => {
-  // const dispatch = useDispatch();
-  
   
   const players = useSelector((state) => state.players.players);
-
-
-  //   useEffect(() => {
-
-  //   const checkTokens = async () => {
-
-  //     await dispatch(REFRESH_ACCESS);
-
-
-  //   }
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-
-
-
-  // const { authTokens, setAuthTokens } = useContext(AuthContext);
-
-
-  // const refreshTokens = async () => {
-
-  //   const axiosInstance = axios.create({
-  //   baseURL: apiURL,
-  //   headers: { Authorization: `Bearer ${authTokens?.access}` }
-  //   });
-
-  //   axiosInstance.interceptors.request.use(async (req) => {
-  //     console.log("hello")
-  //     const user = jwt_decode(authTokens.access);
-  //     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
-
-  //     if (!isExpired) return req;
-  //     console.log("before axios")
-  //     const response = await axios.post(tokenRefreshURL, {
-  //       refresh: authTokens.refresh
-  //     });
-  //     console.log(response);
-
-  //     localStorage.setItem("authTokens", JSON.stringify(response.data));
-  //     setAuthTokens(response.data);
-  //     console.log("after setAuthTokens")
-  //     console.log(response.data)
-  //     return response.data;
-  //   });
-
-  // }
-
-
-  // useEffect(() => {
-  //   console.log("inside useEffect");
-  //   const checkTokens = async () => {
-
-  //     let tokens = await refreshTokens();
-  //     console.log(tokens)
-  //     // console.log(authTokens)
-  //     dispatch(loadPlayers(authTokens.access));
-  //   }
-
-  //   checkTokens();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-
-
-
-
 
 
   return (

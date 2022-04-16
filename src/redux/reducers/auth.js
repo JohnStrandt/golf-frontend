@@ -46,7 +46,7 @@ const auth = (state = initialState, action) => {
     case REFRESH_TOKEN:
       return {
         ...state,
-        user: { ...user, accessToken: payload },
+        user: { ...user, access: payload },
       };
     default:
       return state;

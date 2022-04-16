@@ -1,18 +1,12 @@
 
-import React from 'react'; // , {useContext}
-// import AuthContext from '../context/AuthContext';
+import React from 'react'; 
 import { useNavigate } from 'react-router-dom';
-
 import { LoginWrapper, Form, InputGroup, SubmitButton } from '../styles/LoginStyles';
-
 
 
 const ResetPassword = () => {
 
-
   let navigate = useNavigate();
-
-  // let {loginUser} = useContext(AuthContext);
 
   return (
 

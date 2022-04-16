@@ -1,36 +1,32 @@
-
-import React, { useState, useEffect } from "react";
-// import { useDispatch } from 'react-redux'
+import React, { useEffect } from "react";
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from "styled-components";
 
-import { baseURL } from "../urls";
-import useAxios from '../utils/useAxios';
 import heroHole from '../images/heroHole.jpg'
+
+import { getPlayers }from "../redux/actions/user";
+import { baseURL } from "../urls";
+
 
 
 const Home = () => { 
   
-  let [players, setPlayers] = useState([]);
-  let api = useAxios();
+  const dispatch = useDispatch();
+  const players = useSelector((state) => state.players.players);
 
 
-  let getPlayers = async () => {
-
-    let response = await api.get('/players/');
-    if (response.status === 200){
-      setPlayers(response.data);
-    }
-
-  }
+  // Load Players earlier?  in App.js or somechit?
 
   useEffect(() => {
-    getPlayers();
+    dispatch(getPlayers());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
 
-
+// if players {< >} ??
   return (
+
     <Page>
       
       <Header><h1>Lakeside</h1></Header>
@@ -45,7 +41,9 @@ const Home = () => {
           </Card>
         ))}
 
+
     </Page>
+
   )
 };
 

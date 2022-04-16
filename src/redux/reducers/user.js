@@ -10,13 +10,13 @@ const initState = {
 
 };
 
-export const players = (state = initState, action) => {
+export const users = (state = initState, action) => {
   
   switch (action.type) {
   case FETCH_PLAYERS:
       return {
         ...state,
-        players: action.payload.players,
+        players: action.payload.data,
         loading: false,
         error: null
       };
@@ -32,4 +32,4 @@ export const players = (state = initState, action) => {
   }
 };
 
-export default players;
+export default users;

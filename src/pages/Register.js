@@ -1,6 +1,5 @@
-import React, {useContext, useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
 
 import { LoginWrapper, Form, InputGroup, CardButtons, NavButtons, SubmitButton } from '../styles/LoginStyles';
 
@@ -9,7 +8,6 @@ import { LoginWrapper, Form, InputGroup, CardButtons, NavButtons, SubmitButton }
 const RegisterPage = () => {
 
   let navigate = useNavigate();
-  let {registerUser} = useContext(AuthContext);
 
   const firstNameRef = useRef();
 
@@ -29,7 +27,7 @@ const RegisterPage = () => {
 
     <LoginWrapper>
 
-      <Form onSubmit={registerUser} >
+      <Form onSubmit={console.log("register")} >
 
         <h2>Register</h2>
 

@@ -1,7 +1,5 @@
-
 import api from "./api";
 import TokenService from "./tokenService";
-
 
 const register = (first_name, last_name, username, email, password) => {
   return api.post("/auth/signup", {
@@ -14,12 +12,14 @@ const register = (first_name, last_name, username, email, password) => {
 };
 
 const login = async (username, password) => {
+
   const response = await api
     .post("/auth/signin", {
       username,
       password
     });
-  if (response.data.accessToken) {
+
+  if (response.data.access) {
     TokenService.setUser(response.data);
   }
   return response.data;
