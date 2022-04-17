@@ -4,14 +4,13 @@ import {
 import UserService from "../services/userService";
 
 
-
 export const getPlayers = () => (dispatch) => {
 
   return UserService.getPlayers().then(
     (data) => {
       dispatch({
         type: FETCH_PLAYERS,
-        payload: { data: data },
+        payload: { players: data },
       });
       return Promise.resolve();
     },

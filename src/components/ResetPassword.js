@@ -1,7 +1,7 @@
 
 import React from 'react'; 
 import { useNavigate } from 'react-router-dom';
-import { LoginWrapper, Form, InputGroup, SubmitButton } from '../styles/LoginStyles';
+import { LoginWrapper, CustomForm, InputGroup, SubmitButton } from '../styles/FormStyles';
 
 
 const ResetPassword = () => {
@@ -12,7 +12,7 @@ const ResetPassword = () => {
 
     <LoginWrapper>
 
-      <Form>
+      <CustomForm>
         <button className="close" onClick={() => navigate(-1)} >&times;</button>
         <h2>Reset Password</h2>
 
@@ -23,7 +23,7 @@ const ResetPassword = () => {
 
         <SubmitButton>submit</SubmitButton>
 
-      </Form>
+      </CustomForm>
 
     </LoginWrapper>
 

@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-
 import styled from "styled-components";
 
 import { logout } from "../redux/actions/auth"
@@ -22,7 +21,6 @@ import { IconContext } from "react-icons";
 // import { BsChatText, BsChatTextFill, BsFileX } from "react-icons/bs";
 
 
-
 const Footer = ({ toggleTheme, theme }) => {
   const dispatch = useDispatch();
 
@@ -33,7 +31,6 @@ const Footer = ({ toggleTheme, theme }) => {
   } else{
     themeLabel = "light";
   }
-
 
   function CustomLink({ children, to, ...props }) {
     let resolved = useResolvedPath(to);
@@ -55,7 +52,6 @@ const Footer = ({ toggleTheme, theme }) => {
       </div>
     );
   }
-
 
   return (
     <IconContext.Provider value={{ color: "var(--icons)" }}>

@@ -9,13 +9,15 @@ import * as Yup from "yup";
 
 import styled from "styled-components";
 import {
-  FormWrapper,
   CardButtons,
   NavButtons,
+  FormWrapper,
   SubmitButton
 } from "../styles/FormStyles";
 
-const RegistrationForm = () => {
+
+
+const LoginForm = () => {
   const navigate = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -26,34 +28,17 @@ const RegistrationForm = () => {
   }, [isLoggedIn]);
 
   return (
-    
-      
+
       <Formik
         initialValues={{
           username: "",
-          firstName: "",
-          lastName: "",
-          email: "",
           password: "",
-          confirmPassword: ""
         }}
         validationSchema={Yup.object({
           username: Yup.string()
             .max(15, "Must be 15 characters or less")
             .required("Required"),
-          firstName: Yup.string()
-            .max(15, "Must be 15 characters or less")
-            .required("Required"),
-          lastName: Yup.string()
-            .max(20, "Must be 20 characters or less")
-            .required("Required"),
-          email: Yup.string()
-            .email("Invalid email address")
-            .required("Required"),
           password: Yup.string().required("Required"),
-          confirmPassword: Yup.string()
-            .oneOf([Yup.ref("password"), ""], "Passwords do not match")
-            .required("Required")
         })}
         onSubmit={(values, { setSubmitting }) => {
           setSubmitting(true);
@@ -68,37 +53,13 @@ const RegistrationForm = () => {
       >
         <FormWrapper>
         <CustomForm>
-        <h2>Register</h2>
+        <h2>Login</h2>
           <Form>
             <MyTextInput
               label="Username"
               name="username"
               type="text"
               placeholder="username"
-              autoComplete="off"
-            />
-
-            <MyTextInput
-              label="First Name"
-              name="firstName"
-              type="text"
-              placeholder="John"
-              autoComplete="off"
-            />
-
-            <MyTextInput
-              label="Last Name"
-              name="lastName"
-              type="text"
-              placeholder="Doe"
-              autoComplete="off"
-            />
-
-            <MyTextInput
-              label="Email Address"
-              name="email"
-              type="email"
-              placeholder="john@email.com"
               autoComplete="off"
             />
 
@@ -110,21 +71,28 @@ const RegistrationForm = () => {
               autoComplete="off"
             />
 
-            <MyTextInput
-              label="Confirm Password"
-              name="confirmPassword"
-              type="password"
-              placeholder="confirm password"
-              autoComplete="off"
-            />
-
             <CardButtons>
               <NavButtons>
-                <button type="button" onClick={() => navigate('/login')} >Login</button>
+                <button
+                  type="button"
+                  onClick={() => navigate("/reset")}
+                  className="nav"
+                >
+                  Reset Password
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => navigate("/register")}
+                  className="nav"
+                >
+                  Register New Account
+                </button>
               </NavButtons>
 
-              <SubmitButton>Register</SubmitButton>
-            </CardButtons>
+            <SubmitButton type="submit">Submit</SubmitButton>
+
+          </CardButtons>
 
           </Form>
         </CustomForm>
@@ -172,4 +140,4 @@ const CustomForm = styled.div`
 `;
 
 
-export default RegistrationForm;
+export default LoginForm;

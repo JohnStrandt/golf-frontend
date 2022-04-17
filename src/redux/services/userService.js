@@ -6,7 +6,6 @@ const getPlayers = async () => {
   return response.data;
 };
 
-
 const getPublicContent = () => {
   return api.get("/test/all");
 };

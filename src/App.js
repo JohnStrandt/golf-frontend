@@ -2,10 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import useLocalStorage from "use-local-storage";
 import PrivateRoute from "./utils/PrivateRoute";
-import { Home, Reset, Register, Login, Match } from "./pages";
-import { Footer} from "./components";
+import { Home, Match } from "./pages";
+import { Footer, Login, Register, Reset } from "./components";
 
-import { default as SignupForm } from "./components/RegistrationForm"
 
 function App() {
 
@@ -28,7 +27,7 @@ function App() {
             />
             <Route path="/login" element={<Login />} />
             <Route path="/reset" element={<Reset />} />
-            <Route path="/register" element={<SignupForm />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/match" element={<Match />} />
           </Routes>
           <Footer toggleTheme={toggleTheme} theme={theme}/>

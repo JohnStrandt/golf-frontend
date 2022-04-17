@@ -13,10 +13,8 @@ import { baseURL } from "../urls";
 const Home = () => { 
   
   const dispatch = useDispatch();
-  const players = useSelector((state) => state.players.players);
+  const players = useSelector((state) => state.user.players);
 
-
-  // Load Players earlier?  in App.js or somechit?
 
   useEffect(() => {
     dispatch(getPlayers());
@@ -24,7 +22,6 @@ const Home = () => {
   },[])
 
 
-// if players {< >} ??
   return (
 
     <Page>

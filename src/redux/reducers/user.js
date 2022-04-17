@@ -3,33 +3,33 @@ import {
   FETCH_PLAYERS
 } from "../actions/types";
 
-const initState = {
+const initialState = {
   players: [],
   error: null,
   loading: true,
-
 };
 
-export const users = (state = initState, action) => {
-  
-  switch (action.type) {
+
+export const user = (state = initialState, action) => {
+  const { type, payload } = action;
+  switch (type) {
   case FETCH_PLAYERS:
       return {
         ...state,
-        players: action.payload.data,
+        players: payload.players,
         loading: false,
         error: null
       };
     case "PLAYERS_ERROR":
       return {
         ...state,
-        error: action.payload.error
+        error: payload.error
       };
     case "CLEAR_STATE":
-      return initState;
+      return initialState;
     default:
       return state;
   }
 };
 
-export default users;
+export default user;

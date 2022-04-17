@@ -15,8 +15,20 @@ export const LoginWrapper = styled.div`
 
 `;
 
+export const FormWrapper = styled.div`
+  background-image: url(${golfball_bg});
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0;
 
-export const Form = styled.form`
+`;
+
+
+export const CustomForm = styled.div`
   position: relative;
   width: 95%;
   max-width: 380px;
@@ -51,9 +63,30 @@ export const Form = styled.form`
     border: none;
     cursor: pointer;
   }
+  `
+
+export const CardButtons = styled.div`
+  position: relative;
+  display: flex;
 
 `;
 
+export const NavButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  
+  button {
+    color: #ff652f;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+`;
 
 export const InputGroup = styled.div`
   position: relative;
@@ -89,32 +122,6 @@ export const InputGroup = styled.div`
   }
 
 `;
-
-
-export const CardButtons = styled.div`
-  position: relative;
-  display: flex;
-
-`;
-
-
-export const NavButtons = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 20px;
-  
-  button {
-    color: #ff652f;
-    text-decoration: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-`;
-
 
 export const SubmitButton = styled.button`
 

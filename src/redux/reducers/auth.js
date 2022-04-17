@@ -12,6 +12,7 @@ const initialState = user
   ? { isLoggedIn: true, user }
   : { isLoggedIn: false, user: null };
 
+
 const auth = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
