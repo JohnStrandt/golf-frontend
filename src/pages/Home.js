@@ -6,8 +6,7 @@ import styled from "styled-components";
 import heroHole from '../images/heroHole.jpg'
 
 import { getPlayers }from "../redux/actions/user";
-import { baseURL } from "../urls";
-
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 
 const Home = () => { 
@@ -33,7 +32,17 @@ const Home = () => {
 
               <ProfilePic src={baseURL+player.profile_image} alt="profile pic" />
 
-              <ProfileName>{player.name}</ProfileName>
+              <PlayerInfo>
+
+                <PlayerName>{player.name}</PlayerName>
+
+                <PlayerStats>
+                  <p>{player.team}</p>
+                  <p>{player.handicap} hdcp</p>
+                </PlayerStats>
+
+              </PlayerInfo>
+
 
           </Card>
         ))}
@@ -82,7 +91,6 @@ const Card  = styled.div `
 
     display: flex;
     align-items: center;
-    gap: 2rem;
 
     background-color: var(--card-bg);
 
@@ -106,10 +114,28 @@ const ProfilePic = styled.img`
 
 `;
 
-const ProfileName = styled.p`
+const PlayerInfo = styled.div`
+
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+
+`;
+
+const PlayerName = styled.p`
 
     font-size: 1rem;
     font-weight: 400;
+
+`;
+
+const PlayerStats = styled.p`
+
+    font-size: .9rem;
+    font-weight: 300;
+    text-align: center;
 
 `;
 

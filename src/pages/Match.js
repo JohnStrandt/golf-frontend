@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import heroHole from "../images/heroHole.jpg";
 
-import { baseURL } from "../urls";
-
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 
 const Match = () => {
