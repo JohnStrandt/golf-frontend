@@ -1,20 +1,46 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from "styled-components";
 import heroHole from "../images/heroHole.jpg";
 
-const baseURL = process.env.REACT_APP_BASE_URL;
+import { getTodaysMatch, startResumeMatch }from "../redux/actions/match";
+import match from "../redux/reducers/match";
 
 
 const Match = () => {
   
-  const players = useSelector((state) => state.players.players);
+  const baseURL = process.env.REACT_APP_BASE_URL;
+  const dispatch = useDispatch();
+  const { lineup_ready, match_ready, matchID } = useSelector((state) => state.match);
+
+
+  useEffect(() => {
+    if (!lineup_ready) dispatch(getTodaysMatch());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
+  useEffect(() => {
+    if (lineup_ready && !match_ready) {
+      dispatch(startResumeMatch(matchID));
+      console.log("inside startResumeMatch")
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[lineup_ready])
+
+
+  // could put sections in Components folder, then conditionally render
+  // SelectLineup, ScoreMatch, ShowScorecard
 
 
   return (
     <Page>
-      <Header>
+
+      <h3>hi dan</h3>
+
+      {}
+
+      {/* <Header>
         <h1>Lakeside</h1>
       </Header>
 
@@ -22,9 +48,9 @@ const Match = () => {
         <Card key={player.id}>
           <ProfilePic src={baseURL + player.profile_image} alt="profile pic" />
 
-          <ProfileName>{player.name}</ProfileName>
+          <ProfileName>{player.name}</ProfileName> 
         </Card>
-      ))}
+      ))}*/}
     </Page>
   );
 };

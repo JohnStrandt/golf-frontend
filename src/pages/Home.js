@@ -1,22 +1,21 @@
 import React, { useEffect } from "react";
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from "styled-components";
 
 import heroHole from '../images/heroHole.jpg'
 
 import { getPlayers }from "../redux/actions/user";
-const baseURL = process.env.REACT_APP_BASE_URL;
 
 
 const Home = () => { 
   
+  const baseURL = process.env.REACT_APP_BASE_URL;
   const dispatch = useDispatch();
-  const players = useSelector((state) => state.user.players);
+  const { players, players_loaded } = useSelector((state) => state.user);
 
 
   useEffect(() => {
-    dispatch(getPlayers());
+    if (!players_loaded) dispatch(getPlayers());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
@@ -131,7 +130,7 @@ const PlayerName = styled.p`
 
 `;
 
-const PlayerStats = styled.p`
+const PlayerStats = styled.div`
 
     font-size: .9rem;
     font-weight: 300;

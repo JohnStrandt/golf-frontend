@@ -5,6 +5,7 @@ import {
 
 const initialState = {
   players: [],
+  players_loaded: false,
   error: null,
   loading: true,
 };
@@ -17,6 +18,7 @@ export const user = (state = initialState, action) => {
       return {
         ...state,
         players: payload.players,
+        players_loaded: true,
         loading: false,
         error: null
       };

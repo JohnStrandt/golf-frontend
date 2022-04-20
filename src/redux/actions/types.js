@@ -12,6 +12,11 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 
 
+// MATCH
+export const FETCH_TODAYS_MATCH = "FETCH_TODAYS_MATCH";
+export const START_RESUME_MATCH = "START_RESUME_MATCH";
+
+
 // MESSAGE
 export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
