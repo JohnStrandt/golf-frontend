@@ -25,15 +25,21 @@ const Match = () => {
     team2
   } = useSelector((state) => state.match);
 
+  const event = match.event;
+  const league = match.event.league;
+  const course = match.event.course;
+  const match_name = match.name;
+  const current_hole = match.current_hole;
+
 
   useEffect(() => {
-    if (!lineup_ready) dispatch(getTodaysMatch());
+    if (!match_found) dispatch(getTodaysMatch());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
 
   useEffect(() => {
-    if (lineup_ready && match_found && !match_ready)
+    if (match_found && lineup_ready)
       dispatch(startResumeMatch(matchID));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lineup_ready]);
@@ -43,40 +49,77 @@ const Match = () => {
   // SelectLineup, ScoreMatch, ShowScorecard
   // update current page only after cards updated
 
+
+  // NOT GETTING ALL MATCH DATA YET... NEED TO CHANGE BACKEND
+  // MATCH.EVENT NOT SHOWING
+
   return (
     <Page>
 
-      {/* hdcp and Event need to get pulled out of match */}
-      {/* hdcp needs to be its own Model */}
+      {/* first step */}
+      {/* !match_found returns rosters */}
 
-      {/* rosters data used for lineup */}
-      {/* !lineup_ready && match_found needed here */}
-      {/* drop match_ready  */}
-      {!lineup_ready && match_ready &&
+      {match_found && !lineup_ready &&
       <div>
-        <p>{match.event.date}</p>
-        <h2>{match.event.name}</h2>
-        <h3>{match.name}</h3>
-        <p>{match.event.course.name} {match.event.side_played}</p>
-        <p>{match.hdcp.team} gets {match.hdcp.total_strokes} strokes</p>
+        <h1>{league.name} {event.name}</h1>
+        <h2>{match.name}</h2>
+        <h3>{course.name} {event.side_played}</h3>
+        <h2>Select Players</h2>
+        <br />
+        <p>{rosters.team1.name}</p>
+        <p>{rosters.team1.players[0].name}</p>
+        <p>{rosters.team1.players[1].name}</p>
+        
+        {rosters.team1.bench ? rosters.team1.bench.map((sub) => 
+        <div key={sub.id}>
+          <p>subs:</p>
+          <p>{sub.name}</p>
+        </div> 
+        ) : ''}
+
+        <br/>
+        <p>{rosters.team2.name}</p>
+        <p>{rosters.team2.players[0].name}</p>
+        <p>{rosters.team2.players[1].name}</p>
+
+        {rosters.team2.bench ? rosters.team2.bench.map((sub) => 
+        <div key={sub.id}>
+          <p>subs:</p>
+          <p>{sub.name}</p>
+        </div> 
+        ) : ''}
       </div>
       }
+
+
+      {match_found && lineup_ready &&
+      <div>
+        <p>{event.date}</p>
+        <h2>{event.name}</h2>
+        <h3>{match.name}</h3>
+        <p>{course.name} {event.side_played}</p>
+      </div>
+      }
+
 
       {match_ready &&
       <div>
-        <p>{match.event.course.name} {match.event.side_played}</p>
-        <p>hole {match.current_hole}</p>
+        <p>{course.name} {event.side_played}</p>
+        <p>hole {current_hole}</p>
         <br/>
-        <p>hole {holes[match.current_hole].par}</p>
-        <p>{holes[match.current_hole].yardage} yards</p>
-        <p>hdcp {holes[match.current_hole].handicap}</p>
-        <p>{match.hdcp.team} gets {match.hdcp.strokes[match.current_hole]} strokes</p>
+        <p>hole {holes[current_hole].par}</p>
+        <p>{holes[current_hole].yardage} yards</p>
+        <p>hdcp {holes[current_hole].handicap}</p>
+
+        {/* MatchHandicap is new Model */}
+
+        {/* <p>{match.hdcp.team} gets {match.hdcp.strokes[match.current_hole]} strokes</p> */}
+
       </div>
       }
 
-      {/* <img src={baseURL+holes[match.current_hole].image} alt="profile pic" /> */}
 
-      {/* team1, team2 for scoring */}
+      {/* <img src={baseURL+holes[match.current_hole].image} alt="profile pic" /> */}
 
       <div>{!match_found && <p> no match today, foo</p>}</div>
     </Page>

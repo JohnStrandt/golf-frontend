@@ -10,7 +10,7 @@ const initialState = {
   match_found: false,
   lineup_ready: false,
   match_ready: false,
-  matchID: null,
+  // matchID: null,
   rosters: {},
   match: {},
   holes: {},
@@ -28,7 +28,8 @@ export const match = (state = initialState, action) => {
         ...state,
         match_found: true,
         lineup_ready: payload.cards_made,
-        matchID: payload.matchID,
+        match: payload.match,
+        // matchID: payload.matchID,
         rosters: payload.rosters,
         loading: false,
         error: null
@@ -36,7 +37,7 @@ export const match = (state = initialState, action) => {
     case START_RESUME_MATCH:
       return {
         ...state,
-        match: payload.match,
+        // match: payload.match,
         holes: payload.holes,
         team1: payload.team1,
         team2: payload.team2,

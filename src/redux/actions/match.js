@@ -15,7 +15,8 @@ export const getTodaysMatch = () => (dispatch) => {
       dispatch({
         type: FETCH_TODAYS_MATCH,
         payload: {
-          matchID: data.match.id,
+          // matchID: data.match.id,
+          match: data.match,
           cards_made: data.match.cards_made,
           rosters: data.rosters
         }
@@ -49,7 +50,7 @@ export const startResumeMatch = (id) => (dispatch) => {
       dispatch({
         type: START_RESUME_MATCH,
         payload: {
-          match: data.match,
+          // match: data.match,
           holes: data.holes,
           team1: data.team1,
           team2: data.team2
