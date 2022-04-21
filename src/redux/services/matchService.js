@@ -12,9 +12,16 @@ const startResumeMatch = async (id) => {
 };
 
 
+const scoreHole = async (id, body) => {
+  const response = await api.post(`/match/${id}/`, body)
+  return response.data;
+}
+
+
 const MatchService = {
   getTodaysMatch,
   startResumeMatch,
+  scoreHole,
 };
 
 export default MatchService;

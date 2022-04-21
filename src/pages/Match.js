@@ -1,56 +1,84 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import heroHole from "../images/heroHole.jpg";
 
-import { getTodaysMatch, startResumeMatch }from "../redux/actions/match";
-import match from "../redux/reducers/match";
+import { getTodaysMatch, startResumeMatch } from "../redux/actions/match";
+// import match from "../redux/reducers/match";
+
 
 
 const Match = () => {
-  
   const baseURL = process.env.REACT_APP_BASE_URL;
   const dispatch = useDispatch();
-  const { lineup_ready, match_ready, matchID } = useSelector((state) => state.match);
+  const {
+    loading,
+    lineup_ready,
+    match_ready,
+    matchID,
+    match_found,
+    rosters,
+    match,
+    holes,
+    team1,
+    team2
+  } = useSelector((state) => state.match);
 
 
   useEffect(() => {
     if (!lineup_ready) dispatch(getTodaysMatch());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  }, []);
+
 
   useEffect(() => {
-    if (lineup_ready && !match_ready) {
+    if (lineup_ready && match_found && !match_ready)
       dispatch(startResumeMatch(matchID));
-      console.log("inside startResumeMatch")
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[lineup_ready])
+  }, [lineup_ready]);
 
 
   // could put sections in Components folder, then conditionally render
   // SelectLineup, ScoreMatch, ShowScorecard
-
+  // update current page only after cards updated
 
   return (
     <Page>
 
-      <h3>hi dan</h3>
+      {/* hdcp and Event need to get pulled out of match */}
+      {/* hdcp needs to be its own Model */}
 
-      {}
+      {/* rosters data used for lineup */}
+      {/* !lineup_ready && match_found needed here */}
+      {/* drop match_ready  */}
+      {!lineup_ready && match_ready &&
+      <div>
+        <p>{match.event.date}</p>
+        <h2>{match.event.name}</h2>
+        <h3>{match.name}</h3>
+        <p>{match.event.course.name} {match.event.side_played}</p>
+        <p>{match.hdcp.team} gets {match.hdcp.total_strokes} strokes</p>
+      </div>
+      }
 
-      {/* <Header>
-        <h1>Lakeside</h1>
-      </Header>
+      {match_ready &&
+      <div>
+        <p>{match.event.course.name} {match.event.side_played}</p>
+        <p>hole {match.current_hole}</p>
+        <br/>
+        <p>hole {holes[match.current_hole].par}</p>
+        <p>{holes[match.current_hole].yardage} yards</p>
+        <p>hdcp {holes[match.current_hole].handicap}</p>
+        <p>{match.hdcp.team} gets {match.hdcp.strokes[match.current_hole]} strokes</p>
+      </div>
+      }
 
-      {players.map((player) => (
-        <Card key={player.id}>
-          <ProfilePic src={baseURL + player.profile_image} alt="profile pic" />
+      {/* <img src={baseURL+holes[match.current_hole].image} alt="profile pic" /> */}
 
-          <ProfileName>{player.name}</ProfileName> 
-        </Card>
-      ))}*/}
+      {/* team1, team2 for scoring */}
+
+      <div>{!match_found && <p> no match today, foo</p>}</div>
     </Page>
   );
 };

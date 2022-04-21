@@ -1,8 +1,13 @@
-
 import {
-  FETCH_TODAYS_MATCH, START_RESUME_MATCH } from "../actions/types";
+  FETCH_TODAYS_MATCH,
+  START_RESUME_MATCH,
+  SCORE_HOLE,
+  MATCH_NOT_FOUND,
+  CLEAR_STATE
+} from "../actions/types";
 
 const initialState = {
+  match_found: false,
   lineup_ready: false,
   match_ready: false,
   matchID: null,
@@ -12,39 +17,43 @@ const initialState = {
   team1: {},
   team2: {},
   error: null,
-  loading: true,
+  loading: true
 };
-
 
 export const match = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case FETCH_TODAYS_MATCH:
-        return {
-          ...state,
-          lineup_ready: payload.cards_made,
-          matchID: payload.matchID,
-          rosters: payload.rosters,
-          loading: false,
-          error: null
-        };
-    case START_RESUME_MATCH:
-        return {
-          ...state,
-          match: payload.match,
-          holes: payload.holes,
-          team1: payload.team1,
-          team2: payload.team2,
-          match_ready: true,
-          loading: false,
-          error: null
-        };
-    case "MATCH_ERROR":
       return {
         ...state,
-        error: payload.error
+        match_found: true,
+        lineup_ready: payload.cards_made,
+        matchID: payload.matchID,
+        rosters: payload.rosters,
+        loading: false,
+        error: null
       };
-    case "CLEAR_STATE":
+    case START_RESUME_MATCH:
+      return {
+        ...state,
+        match: payload.match,
+        holes: payload.holes,
+        team1: payload.team1,
+        team2: payload.team2,
+        match_ready: true,
+        loading: false,
+        error: null
+      };
+    case MATCH_NOT_FOUND:
+      return {
+        ...state,
+        match_found: false,
+        error: payload.status,
+        loading: false
+      };
+    case SCORE_HOLE:
+      return state;
+    case CLEAR_STATE:
       return initialState;
     default:
       return state;

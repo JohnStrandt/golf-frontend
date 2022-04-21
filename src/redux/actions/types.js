@@ -15,8 +15,14 @@ export const LOGOUT = "LOGOUT";
 // MATCH
 export const FETCH_TODAYS_MATCH = "FETCH_TODAYS_MATCH";
 export const START_RESUME_MATCH = "START_RESUME_MATCH";
+export const MATCH_NOT_FOUND = "MATCH_NOT_FOUND";
+export const SCORE_HOLE = "SCORE_HOLE";
 
 
 // MESSAGE
 export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
+
+
+// NOT REALLY USED
+export const CLEAR_STATE = "CLEAR_STATE";
