@@ -4,15 +4,20 @@ import styled from "styled-components";
 
 import heroHole from '../images/heroHole.jpg'
 
-import { getPlayers }from "../redux/actions/user";
+import { getPlayers, getLeague }from "../redux/actions/user";
 
 
 const Home = () => { 
   
   const baseURL = process.env.REACT_APP_BASE_URL;
   const dispatch = useDispatch();
-  const { players, players_loaded } = useSelector((state) => state.user);
+  const { players, players_loaded, league, league_loaded } = useSelector((state) => state.user);
 
+
+  useEffect(() => {
+    if (!league_loaded) dispatch(getLeague());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
 
   useEffect(() => {
     if (!players_loaded) dispatch(getPlayers());
@@ -24,7 +29,7 @@ const Home = () => {
 
     <Page>
       
-      <Header><h1>Lakeside</h1></Header>
+      <Header><h1>{league.name}</h1></Header>
 
         {players.map(player => (
           <Card key={player.id}>

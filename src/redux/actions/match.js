@@ -15,24 +15,21 @@ export const getTodaysMatch = () => (dispatch) => {
       dispatch({
         type: FETCH_TODAYS_MATCH,
         payload: {
-          // matchID: data.match.id,
           match: data.match,
+          team1: data.team1,
+          team2: data.team2,
+          subs1: data.subs1,
+          subs2: data.subs2,
           cards_made: data.match.cards_made,
-          rosters: data.rosters
         }
       });
       return Promise.resolve();
     },
     (error) => {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+      const message = "Sorry, no match found for today";
       dispatch({
         type: MATCH_NOT_FOUND,
-        payload: error.response
+        payload: error
       });
       dispatch({
         type: SET_MESSAGE,
@@ -40,7 +37,7 @@ export const getTodaysMatch = () => (dispatch) => {
       });
       return Promise.reject();
     }
-  );
+  )
 };
 
 export const startResumeMatch = (id) => (dispatch) => {

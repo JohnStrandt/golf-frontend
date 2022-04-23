@@ -10,18 +10,19 @@ const initialState = {
   match_found: false,
   lineup_ready: false,
   match_ready: false,
-  // matchID: null,
-  rosters: {},
   match: {},
   holes: {},
   team1: {},
   team2: {},
+  subs1: {},
+  subs2: {},
   error: null,
   loading: true
 };
 
 export const match = (state = initialState, action) => {
   const { type, payload } = action;
+
   switch (type) {
     case FETCH_TODAYS_MATCH:
       return {
@@ -29,8 +30,10 @@ export const match = (state = initialState, action) => {
         match_found: true,
         lineup_ready: payload.cards_made,
         match: payload.match,
-        // matchID: payload.matchID,
-        rosters: payload.rosters,
+        team1: payload.team1,
+        team2: payload.team2,
+        subs1: payload.subs1,
+        subs2: payload.subs2,
         loading: false,
         error: null
       };
@@ -49,7 +52,7 @@ export const match = (state = initialState, action) => {
       return {
         ...state,
         match_found: false,
-        error: payload.status,
+        error: payload,
         loading: false
       };
     case SCORE_HOLE:

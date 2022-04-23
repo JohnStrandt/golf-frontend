@@ -9,7 +9,7 @@ const GlobalStyles = createGlobalStyle`
   --text-hero:  #fff;
   --icons: #121212;
   --active: #359e64;
-  
+
 
   --danger: #fc4b0b;
   --augusta-green: #076652;
@@ -45,10 +45,12 @@ const GlobalStyles = createGlobalStyle`
 
 html {
   padding: 0;
+  /* height: 100vh; */
 }
 
 body{
   /* iPone notch issue */
+  /* height: 100%; */
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);

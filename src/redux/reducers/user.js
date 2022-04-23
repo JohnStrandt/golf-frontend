@@ -1,10 +1,13 @@
 
 import {
-  FETCH_PLAYERS
+  FETCH_PLAYERS,
+  FETCH_LEAGUE
 } from "../actions/types";
 
 const initialState = {
+  league: {},
   players: [],
+  league_loaded: false,
   players_loaded: false,
   error: null,
   loading: true,
@@ -19,6 +22,14 @@ export const user = (state = initialState, action) => {
         ...state,
         players: payload.players,
         players_loaded: true,
+        loading: false,
+        error: null
+      };
+  case FETCH_LEAGUE:
+      return {
+        ...state,
+        league: payload.league,
+        league_loaded: true,
         loading: false,
         error: null
       };

@@ -5,91 +5,66 @@ import styled from "styled-components";
 import heroHole from "../images/heroHole.jpg";
 
 import { getTodaysMatch, startResumeMatch } from "../redux/actions/match";
-// import match from "../redux/reducers/match";
+import { getLeague } from "../redux/actions/user";
+
+import { Lineup } from "../components"
 
 
 
 const Match = () => {
-  const baseURL = process.env.REACT_APP_BASE_URL;
-  const dispatch = useDispatch();
+
+  
   const {
     loading,
     lineup_ready,
     match_ready,
     matchID,
     match_found,
-    rosters,
     match,
     holes,
     team1,
-    team2
+    team2,
+    subs1,
+    subs2
   } = useSelector((state) => state.match);
+  const { message } = useSelector((state) => state.message);
+  const { league, league_loaded } = useSelector((state) => state.user);
+  let event, course, current_hole;
 
-  const event = match.event;
-  const league = match.event.league;
-  const course = match.event.course;
-  const match_name = match.name;
-  const current_hole = match.current_hole;
+  const dispatch = useDispatch();
 
+  if (match_found){
+    event = match.event;
+    course = match.event.course;
+    current_hole = match.current_hole;
+  }
 
   useEffect(() => {
-    if (!match_found) dispatch(getTodaysMatch());
+    if (!league_loaded) dispatch(getLeague());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (!match_found) {
+      dispatch(getTodaysMatch())
+      .catch((e) => console.error(e));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
-    if (match_found && lineup_ready)
-      dispatch(startResumeMatch(matchID));
+    if (match_found && lineup_ready) dispatch(startResumeMatch(matchID));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lineup_ready]);
 
 
-  // could put sections in Components folder, then conditionally render
-  // SelectLineup, ScoreMatch, ShowScorecard
-  // update current page only after cards updated
-
-
-  // NOT GETTING ALL MATCH DATA YET... NEED TO CHANGE BACKEND
-  // MATCH.EVENT NOT SHOWING
 
   return (
     <Page>
 
-      {/* first step */}
-      {/* !match_found returns rosters */}
+      <div>{!match_found && message && <p>{message}</p>}</div>
 
-      {match_found && !lineup_ready &&
-      <div>
-        <h1>{league.name} {event.name}</h1>
-        <h2>{match.name}</h2>
-        <h3>{course.name} {event.side_played}</h3>
-        <h2>Select Players</h2>
-        <br />
-        <p>{rosters.team1.name}</p>
-        <p>{rosters.team1.players[0].name}</p>
-        <p>{rosters.team1.players[1].name}</p>
-        
-        {rosters.team1.bench ? rosters.team1.bench.map((sub) => 
-        <div key={sub.id}>
-          <p>subs:</p>
-          <p>{sub.name}</p>
-        </div> 
-        ) : ''}
-
-        <br/>
-        <p>{rosters.team2.name}</p>
-        <p>{rosters.team2.players[0].name}</p>
-        <p>{rosters.team2.players[1].name}</p>
-
-        {rosters.team2.bench ? rosters.team2.bench.map((sub) => 
-        <div key={sub.id}>
-          <p>subs:</p>
-          <p>{sub.name}</p>
-        </div> 
-        ) : ''}
-      </div>
-      }
+      {match_found && !lineup_ready && <Lineup /> }
 
 
       {match_found && lineup_ready &&
@@ -111,31 +86,24 @@ const Match = () => {
         <p>{holes[current_hole].yardage} yards</p>
         <p>hdcp {holes[current_hole].handicap}</p>
 
-        {/* MatchHandicap is new Model */}
-
-        {/* <p>{match.hdcp.team} gets {match.hdcp.strokes[match.current_hole]} strokes</p> */}
-
       </div>
       }
 
-
-      {/* <img src={baseURL+holes[match.current_hole].image} alt="profile pic" /> */}
-
-      <div>{!match_found && <p> no match today, foo</p>}</div>
     </Page>
   );
 };
 
 const Page = styled.div`
+  height: 100%;
+
   background-color: var(--background);
   color: var(--text-primary);
-  min-height: 100vh;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  padding-bottom: 5rem;
+  padding-bottom: 4rem;
 `;
 
 const Header = styled.div`
