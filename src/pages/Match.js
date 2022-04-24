@@ -7,7 +7,7 @@ import heroHole from "../images/heroHole.jpg";
 import { getTodaysMatch, startResumeMatch } from "../redux/actions/match";
 import { getLeague } from "../redux/actions/user";
 
-import { Lineup } from "../components"
+import { SelectPlayers } from "../components"
 
 
 
@@ -64,10 +64,11 @@ const Match = () => {
 
       <div>{!match_found && message && <p>{message}</p>}</div>
 
-      {match_found && !lineup_ready && <Lineup /> }
-
+      {match_found && !lineup_ready && <SelectPlayers /> }
 
       {match_found && lineup_ready &&
+
+      // confirm lineup before starting? go back button?
       <div>
         <p>{event.date}</p>
         <h2>{event.name}</h2>

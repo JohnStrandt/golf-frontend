@@ -1,19 +1,82 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { GiBodySwapping } from "react-icons/gi";
+import { IoIosSwap } from "react-icons/io";
+import { SET_MATCH_READY } from "../redux/actions/types";
+const baseURL = process.env.REACT_APP_BASE_URL;
 
-const Lineup = () => {
-  const baseURL = process.env.REACT_APP_BASE_URL;
+
+
+const SelectPlayers = () => {
 
   const { match, team1, team2, subs1, subs2 } = useSelector(
     (state) => state.match
   );
   const { league } = useSelector((state) => state.user);
+  
   const event = match.event;
   const course = match.event.course;
-  const team1_name = match.team1_name;
-  const team2_name = match.team2_name;
+
+  const dispatch = useDispatch();
+
+
+  // using one index variable was error prone (on edge cases)
+  // so I made one for each team - seems bullet proof now...
+  const [indexOne, setIndexOne] = useState(0);
+  const [indexTwo, setIndexTwo] = useState(0);
+  const [teamOne, setTeamOne] = useState([...team1]);
+  const [subsOne, setSubsOne] = useState([...subs1])
+  const [teamTwo, setTeamTwo] = useState([...team2]);
+  const [subsTwo, setSubsTwo] = useState([...subs2])
+
+
+  const swap = (player, team, subs) => {
+
+    let index;
+    if(team === teamOne) index = indexOne;
+    else index = indexTwo;
+
+    let playerIndex = team.findIndex(_player => {
+      return _player.id === player.id;
+    });
+  
+    let temp = subs[index];
+    subs[index] = team[playerIndex];
+    team[playerIndex] = temp;
+
+    if(team === teamOne) {
+      setTeamOne([...team]);
+      setSubsOne([...subs]);
+      if (index === subs.length - 1) setIndexOne(0);
+      else setIndexOne(index + 1);
+    } else {
+      setTeamTwo([...team]);
+      setSubsTwo([...subs]);
+      if (index === subs.length - 1) setIndexTwo(0);
+      else setIndexTwo(index + 1);
+    }
+
+  }
+
+  const next_handler = () => {
+    console.log("next");
+
+    console.log(teamOne);
+    console.log(teamTwo);
+
+
+
+    // don't need these, necessarily
+    // dispatch(SET_LINEUP_READY);
+    // dispatch(SET_MATCH_READY);
+
+    // lineup_ready = true, or match_ready = true, or both?
+    // lineup_ready only to have a confirm lineup page (back button)
+    // match_ready goes on to score the match
+
+    // makeCards(teamOne, teamTwo)
+  }
+
 
   return (
     <Page>
@@ -28,9 +91,9 @@ const Lineup = () => {
       </Header>
 
       <Teams>
-        <h3>{team1_name}</h3>
+        <h3>{match.team1_name}</h3>
 
-        {team1.map((player) => (
+        {teamOne.map((player) => (
           <Card key={player.id}>
             <ProfilePic
               src={baseURL + player.profile_image}
@@ -40,8 +103,8 @@ const Lineup = () => {
             <Profile>
               <ProfileName>{player.name}</ProfileName>
               {subs1.length > 0 && (
-                <Swap onClick={() => console.log(player.name)}>
-                  <GiBodySwapping />
+                <Swap onClick={() => swap(player, teamOne, subsOne)}>
+                  <IoIosSwap />
                   <span>swap</span>
                 </Swap>
               )}
@@ -49,9 +112,9 @@ const Lineup = () => {
           </Card>
         ))}
 
-        <h3>{team2_name}</h3>
+        <h3>{match.team2_name}</h3>
 
-        {team2.map((player) => (
+        {teamTwo.map((player) => (
           <Card key={player.id}>
             <ProfilePic
               src={baseURL + player.profile_image}
@@ -60,10 +123,10 @@ const Lineup = () => {
 
             <Profile>
               <ProfileName>{player.name}</ProfileName>
-              {subs2.lentgth > 0 && (
-                <Swap onClick={() => console.log(player.name)}>
-                  <GiBodySwapping />
-                  <span>swap</span>
+              {subs2.length > 0 && (
+                <Swap onClick={() => swap(player, teamTwo, subsTwo)}>
+                  <IoIosSwap />
+                  <span>swop</span>
                 </Swap>
               )}
             </Profile>
@@ -71,8 +134,10 @@ const Lineup = () => {
         ))}
       </Teams>
 
-      <Next onClick={() => console.log("Next")}>Next</Next>
+      <Next onClick={() => next_handler()}>Next</Next>
+
     </Page>
+    
   );
 };
 
@@ -185,4 +250,4 @@ const Next = styled.button`
   }
 `;
 
-export default Lineup;
+export default SelectPlayers;

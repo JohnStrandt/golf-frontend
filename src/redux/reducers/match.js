@@ -1,6 +1,7 @@
 import {
   FETCH_TODAYS_MATCH,
   START_RESUME_MATCH,
+  SET_MATCH_READY,
   SCORE_HOLE,
   MATCH_NOT_FOUND,
   CLEAR_STATE
@@ -54,6 +55,11 @@ export const match = (state = initialState, action) => {
         match_found: false,
         error: payload,
         loading: false
+      };
+    case SET_MATCH_READY:
+      return {
+        ...state,
+        match_ready: true
       };
     case SCORE_HOLE:
       return state;

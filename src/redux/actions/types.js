@@ -17,6 +17,7 @@ export const LOGOUT = "LOGOUT";
 export const FETCH_TODAYS_MATCH = "FETCH_TODAYS_MATCH";
 export const START_RESUME_MATCH = "START_RESUME_MATCH";
 export const MATCH_NOT_FOUND = "MATCH_NOT_FOUND";
+export const SET_MATCH_READY = "SET_MATCH_READY";
 export const SCORE_HOLE = "SCORE_HOLE";
 
 
