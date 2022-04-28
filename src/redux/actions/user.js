@@ -40,7 +40,9 @@ export const getPlayers = () => (dispatch) => {
 export const getLeague = () => (dispatch) => {
 
   return UserService.getLeague().then(
+    
     (data) => {
+
       dispatch({
         type: FETCH_LEAGUE,
         payload: { league: data },

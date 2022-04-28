@@ -1,95 +1,90 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import heroHole from "../images/heroHole.jpg";
 
-import { getTodaysMatch, startResumeMatch } from "../redux/actions/match";
-import { getLeague } from "../redux/actions/user";
+import {
+  NO_DATA,
+  MATCH_FOUND,
+  PLAYERS_SELECTED,
+  MATCH_UPDATED,
+  CARDS_READY,
+} from "../redux/actions/types";
 
-import { SelectPlayers } from "../components"
+import { 
+  getTodaysMatch, 
+  updateMatchTeams, 
+  makeScorecards 
+} from "../redux/actions/match";
 
-
+import { SelectPlayers } from "../components";
 
 const Match = () => {
-
-  
   const {
     loading,
-    lineup_ready,
-    match_ready,
-    matchID,
-    match_found,
+    match_state,
     match,
     holes,
-    team1,
-    team2,
-    subs1,
-    subs2
   } = useSelector((state) => state.match);
+
   const { message } = useSelector((state) => state.message);
-  const { league, league_loaded } = useSelector((state) => state.user);
-  let event, course, current_hole;
+  const [teamOnePlayers, setTeamOnePlayers] = useState({});
+  const [teamTwoPlayers, setTeamTwoPlayers] = useState({});
 
   const dispatch = useDispatch();
+  
 
-  if (match_found){
-    event = match.event;
-    course = match.event.course;
-    current_hole = match.current_hole;
-  }
+  useEffect(() => {   //  STATE MACHINE
 
-  useEffect(() => {
-    if (!league_loaded) dispatch(getLeague());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (match_state === NO_DATA) {
+      dispatch(getTodaysMatch());
+    
+    }else if (match_state === PLAYERS_SELECTED) {
+      dispatch(updateMatchTeams(match.id, teamOnePlayers, teamTwoPlayers));
+    
+    }else if (match_state === MATCH_UPDATED) {
+      dispatch(makeScorecards(match.id, match.team1, match.team2))
 
-  useEffect(() => {
-    if (!match_found) {
-      dispatch(getTodaysMatch())
-      .catch((e) => console.error(e));
+    }else if (match_state === CARDS_READY) {
+      console.log("LET'S PLAY")
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  useEffect(() => {
-    if (match_found && lineup_ready) dispatch(startResumeMatch(matchID));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lineup_ready]);
+  }, [match_state])
 
 
 
   return (
     <Page>
 
-      <div>{!match_found && message && <p>{message}</p>}</div>
+      {match_state === NO_DATA && message && <p>{message}</p>}
 
-      {match_found && !lineup_ready && <SelectPlayers /> }
+      {match_state === MATCH_FOUND && (
+        <SelectPlayers 
+        setTeamOnePlayers = {setTeamOnePlayers}
+        setTeamTwoPlayers = {setTeamTwoPlayers}
+        />
+      )}
 
-      {match_found && lineup_ready &&
+      {match_state === MATCH_UPDATED && (
+        <>
+          <p>MATCH UPDATED</p>
+        </>
+      )}
 
-      // confirm lineup before starting? go back button?
-      <div>
-        <p>{event.date}</p>
-        <h2>{event.name}</h2>
-        <h3>{match.name}</h3>
-        <p>{course.name} {event.side_played}</p>
-      </div>
-      }
-
-
-      {match_ready &&
-      <div>
-        <p>{course.name} {event.side_played}</p>
-        <p>hole {current_hole}</p>
-        <br/>
-        <p>hole {holes[current_hole].par}</p>
-        <p>{holes[current_hole].yardage} yards</p>
-        <p>hdcp {holes[current_hole].handicap}</p>
-
-      </div>
-      }
-
+      {match_state === CARDS_READY && (
+        <div>
+          <p>
+            {match.event.course.name} {match.event.side_played}
+          </p>
+          <p>hole {match.current_hole}</p>
+          <br />
+          <p>hole {holes[match.current_hole].par}</p>
+          <p>{holes[match.current_hole].yardage} yards</p>
+          <p>hdcp {holes[match.current_hole].handicap}</p>
+        </div>
+      )}
     </Page>
   );
 };

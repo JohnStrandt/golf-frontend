@@ -1,8 +1,8 @@
 import {
   FETCH_TODAYS_MATCH,
-  START_RESUME_MATCH,
+  UPDATE_MATCH_TEAMS,
+  MAKE_SCORECARDS,
   SET_MESSAGE,
-  MATCH_NOT_FOUND,
   SCORE_HOLE
 } from "./types";
 import MatchService from "../services/matchService";
@@ -12,25 +12,22 @@ export const getTodaysMatch = () => (dispatch) => {
 
   return MatchService.getTodaysMatch().then(
     (data) => {
+
       dispatch({
         type: FETCH_TODAYS_MATCH,
         payload: {
           match: data.match,
-          team1: data.team1,
-          team2: data.team2,
+          holes: data.holes,
+          starters1: data.starters1,
+          starters2: data.starters2,
           subs1: data.subs1,
           subs2: data.subs2,
-          cards_made: data.match.cards_made,
         }
       });
       return Promise.resolve();
     },
     (error) => {
       const message = "Sorry, no match found for today";
-      dispatch({
-        type: MATCH_NOT_FOUND,
-        payload: error
-      });
       dispatch({
         type: SET_MESSAGE,
         payload: message
@@ -40,39 +37,54 @@ export const getTodaysMatch = () => (dispatch) => {
   )
 };
 
-export const startResumeMatch = (id) => (dispatch) => {
-  return MatchService.startResumeMatch(id).then(
-    (data) => {
 
+export const updateMatchTeams = (id, teamOne, teamTwo) => (dispatch) => {
+
+  return MatchService.updateMatchTeams(id, teamOne, teamTwo).then(
+    (data) => {
       dispatch({
-        type: START_RESUME_MATCH,
+        type: UPDATE_MATCH_TEAMS,
         payload: {
-          // match: data.match,
-          holes: data.holes,
-          team1: data.team1,
-          team2: data.team2
+          match: data,
         }
       });
       return Promise.resolve();
     },
     (error) => {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      // dispatch({
-      //   type: LOGIN_FAIL,
-      // });
+      const message = "Update failed";
       dispatch({
         type: SET_MESSAGE,
-        payload: message,
+        payload: message
       });
       return Promise.reject();
     }
-  );
+  )
 };
+
+
+export const makeScorecards = (id, teamOne, teamTwo) => (dispatch) => {
+
+  return MatchService.makeScorecards(id, teamOne, teamTwo).then(
+    (data) => {
+      dispatch({
+        type: MAKE_SCORECARDS,
+        payload: {
+          // match: data,
+        }
+      });
+      return Promise.resolve();
+    },
+    (error) => {
+      const message = "Error while making scorecards";
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message
+      });
+      return Promise.reject();
+    }
+  )
+};
+
 
 
 export const scoreHole = (body) => (dispatch) => {

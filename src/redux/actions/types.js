@@ -14,11 +14,22 @@ export const LOGOUT = "LOGOUT";
 
 
 // MATCH
+
+// api calls
 export const FETCH_TODAYS_MATCH = "FETCH_TODAYS_MATCH";
-export const START_RESUME_MATCH = "START_RESUME_MATCH";
-export const MATCH_NOT_FOUND = "MATCH_NOT_FOUND";
-export const SET_MATCH_READY = "SET_MATCH_READY";
+export const UPDATE_MATCH_TEAMS = "UPDATE_MATCH_TEAMS";
+export const MAKE_SCORECARDS = "MAKE_SCORECARDS";
+
+// not used yet
 export const SCORE_HOLE = "SCORE_HOLE";
+
+// state machine constants in match.js
+export const NO_DATA = "NO_DATA";
+export const MATCH_FOUND = "MATCH_FOUND";
+export const PLAYERS_SELECTED = "PLAYERS_SELECTED";
+export const MATCH_UPDATED = "MATCH_UPDATED";
+export const CARDS_READY = "CARDS_READY";
+
 
 
 // MESSAGE

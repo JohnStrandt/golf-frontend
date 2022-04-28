@@ -2,7 +2,7 @@ import api from "./api";
 import TokenService from "./tokenService";
 
 const register = (first_name, last_name, username, email, password) => {
-  return api.post("/auth/signup", {
+  return api.post("/auth/register/", {
     first_name,
     last_name,
     username,
@@ -14,7 +14,7 @@ const register = (first_name, last_name, username, email, password) => {
 const login = async (username, password) => {
 
   const response = await api
-    .post("/auth/signin", {
+    .post("/auth/login", {
       username,
       password
     });

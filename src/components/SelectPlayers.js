@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { IoIosSwap } from "react-icons/io";
-import { SET_MATCH_READY } from "../redux/actions/types";
+import { PLAYERS_SELECTED } from "../redux/actions/types";
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 
+const SelectPlayers = ({setTeamOnePlayers, setTeamTwoPlayers}) => {
 
-const SelectPlayers = () => {
-
-  const { match, team1, team2, subs1, subs2 } = useSelector(
+  const { match, starters1, subs1, starters2, subs2 } = useSelector(
     (state) => state.match
   );
   const { league } = useSelector((state) => state.user);
@@ -21,12 +20,12 @@ const SelectPlayers = () => {
 
 
   // using one index variable was error prone (on edge cases)
-  // so I made one for each team - seems bullet proof now...
+  // so I made one for each team
   const [indexOne, setIndexOne] = useState(0);
   const [indexTwo, setIndexTwo] = useState(0);
-  const [teamOne, setTeamOne] = useState([...team1]);
+  const [teamOne, setTeamOne] = useState([...starters1]);
   const [subsOne, setSubsOne] = useState([...subs1])
-  const [teamTwo, setTeamTwo] = useState([...team2]);
+  const [teamTwo, setTeamTwo] = useState([...starters2]);
   const [subsTwo, setSubsTwo] = useState([...subs2])
 
 
@@ -59,22 +58,11 @@ const SelectPlayers = () => {
   }
 
   const next_handler = () => {
-    console.log("next");
+    
+    setTeamOnePlayers(teamOne);
+    setTeamTwoPlayers(teamTwo);
+    dispatch({type: PLAYERS_SELECTED});
 
-    console.log(teamOne);
-    console.log(teamTwo);
-
-
-
-    // don't need these, necessarily
-    // dispatch(SET_LINEUP_READY);
-    // dispatch(SET_MATCH_READY);
-
-    // lineup_ready = true, or match_ready = true, or both?
-    // lineup_ready only to have a confirm lineup page (back button)
-    // match_ready goes on to score the match
-
-    // makeCards(teamOne, teamTwo)
   }
 
 
