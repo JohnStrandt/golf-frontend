@@ -18,7 +18,7 @@ export const LOGOUT = "LOGOUT";
 // api calls
 export const FETCH_TODAYS_MATCH = "FETCH_TODAYS_MATCH";
 export const UPDATE_MATCH_TEAMS = "UPDATE_MATCH_TEAMS";
-export const MAKE_SCORECARDS = "MAKE_SCORECARDS";
+export const GET_SCORECARDS = "GET_SCORECARDS";// get_or_create
 
 // not used yet
 export const SCORE_HOLE = "SCORE_HOLE";

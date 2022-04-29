@@ -1,7 +1,7 @@
 import {
   FETCH_TODAYS_MATCH,
   UPDATE_MATCH_TEAMS,
-  MAKE_SCORECARDS,
+  GET_SCORECARDS,
 
   NO_DATA,
   MATCH_FOUND,
@@ -40,6 +40,8 @@ export const match = (state = initialState, action) => {
         match_state: CARDS_READY
       };
     case FETCH_TODAYS_MATCH:
+      let MATCH_STATE = MATCH_FOUND;
+      if (payload.match.cards_made) MATCH_STATE = MATCH_UPDATED;
       return {
         ...state,
         match: payload.match,
@@ -48,7 +50,7 @@ export const match = (state = initialState, action) => {
         starters2: payload.starters2,
         subs1: payload.subs1,
         subs2: payload.subs2,
-        match_state: MATCH_FOUND,
+        match_state: MATCH_STATE,
         loading: false,
         error: null
       };
@@ -60,11 +62,15 @@ export const match = (state = initialState, action) => {
         loading: false,
         error: null
       };
-    case MAKE_SCORECARDS:
-      console.log(payload);
+    case GET_SCORECARDS:
       return {
         ...state,
-        // match_state: CARDS_READY,
+        cards1: payload.cards1,
+        cards2: payload.cards2,
+        handicap: payload.handicap,
+        match_state: CARDS_READY,
+        loading: false,
+        error: null
       };
     case SCORE_HOLE:
       return state;

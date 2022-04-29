@@ -21,19 +21,15 @@ const updateMatchTeams = async (id, teamOne, teamTwo) => {
 };
 
 
-const makeScorecards = async (id, team1, team2) => {
+const getScorecards = async (id, team1, team2) => {
 
-  console.log("team1: ", team1);
-  console.log("team2: ", team2);
+  const data = {
+    team1: team1,
+    team2: team2
+  }
 
-  // const data = {
-    // team1: team1,
-    // team2: team2
-  // }
-
-  // const response = await api.post(`/match/${id}/make-scorecards/`, data)
-
-  return "hiiii daaan";
+  const response = await api.post(`/match/${id}/make-scorecards/`, data)
+  return response.data;
 };
 
 
@@ -52,7 +48,7 @@ const scoreHole = async (id, body) => {
 const MatchService = {
   getTodaysMatch,
   updateMatchTeams,
-  makeScorecards,
+  getScorecards,
   scoreHole,
 };
 

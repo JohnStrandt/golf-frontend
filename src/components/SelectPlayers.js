@@ -18,9 +18,6 @@ const SelectPlayers = ({setTeamOnePlayers, setTeamTwoPlayers}) => {
 
   const dispatch = useDispatch();
 
-
-  // using one index variable was error prone (on edge cases)
-  // so I made one for each team
   const [indexOne, setIndexOne] = useState(0);
   const [indexTwo, setIndexTwo] = useState(0);
   const [teamOne, setTeamOne] = useState([...starters1]);

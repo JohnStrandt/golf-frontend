@@ -1,7 +1,7 @@
 import {
   FETCH_TODAYS_MATCH,
   UPDATE_MATCH_TEAMS,
-  MAKE_SCORECARDS,
+  GET_SCORECARDS,
   SET_MESSAGE,
   SCORE_HOLE
 } from "./types";
@@ -62,14 +62,16 @@ export const updateMatchTeams = (id, teamOne, teamTwo) => (dispatch) => {
 };
 
 
-export const makeScorecards = (id, teamOne, teamTwo) => (dispatch) => {
+export const getScorecards = (id, teamOne, teamTwo) => (dispatch) => {
 
-  return MatchService.makeScorecards(id, teamOne, teamTwo).then(
+  return MatchService.getScorecards(id, teamOne, teamTwo).then(
     (data) => {
       dispatch({
-        type: MAKE_SCORECARDS,
+        type: GET_SCORECARDS,
         payload: {
-          // match: data,
+          cards1: data.cards1,
+          cards2: data.cards1,
+          handicap: data.handicap
         }
       });
       return Promise.resolve();
