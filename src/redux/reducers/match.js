@@ -3,13 +3,18 @@ import {
   UPDATE_MATCH_TEAMS,
   GET_SCORECARDS,
 
+  SET_LOADING,
+
+  // state machine types
   NO_DATA,
   MATCH_FOUND,
   PLAYERS_SELECTED,
   MATCH_UPDATED,
-  CARDS_READY,
+  SCORING,
+  MATCH_OVER,
 
   SCORE_HOLE,
+  AWARD_BONUS,
   CLEAR_STATE
 } from "../actions/types";
 
@@ -21,23 +26,36 @@ const initialState = {
   starters2: {},
   subs1: {},
   subs2: {},
-  error: null,
-  loading: true
+  loading: true,
+  error: null,// not using yet
 };
 
 export const match = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+    case MATCH_OVER:
+      return {
+        ...state,
+        match_state: MATCH_OVER,
+        loading: false
+      };
     case PLAYERS_SELECTED:
       return {
         ...state,
-        match_state: PLAYERS_SELECTED
+        match_state: PLAYERS_SELECTED,
+        loading: false
       };
-    case CARDS_READY:
+    case SCORING:
       return {
         ...state,
-        match_state: CARDS_READY
+        match_state: SCORING,
+        loading: false
       };
     case FETCH_TODAYS_MATCH:
       let MATCH_STATE = MATCH_FOUND;
@@ -68,12 +86,25 @@ export const match = (state = initialState, action) => {
         cards1: payload.cards1,
         cards2: payload.cards2,
         handicap: payload.handicap,
-        match_state: CARDS_READY,
+        match_state: SCORING,
         loading: false,
         error: null
       };
     case SCORE_HOLE:
-      return state;
+      return {
+        ...state,
+        match: payload.match,
+        cards1: payload.cards1,
+        cards2: payload.cards2,
+        loading: false
+      };
+    case AWARD_BONUS:
+      return {
+        ...state,
+        cards1: payload.cards1,
+        cards2: payload.cards2,
+        loading: false
+      };
     case CLEAR_STATE:
       return initialState;
     default:

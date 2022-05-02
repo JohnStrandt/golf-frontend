@@ -33,14 +33,20 @@ const getScorecards = async (id, team1, team2) => {
 };
 
 
-// const startResumeMatch = async (id) => {
-//   const response = await api.get(`/match/${id}/`)
-//   return response.data;
-// };
+const scoreHole = async (id, holeScores) => {
+
+  const data = holeScores;
+  const response = await api.post(`/match/${id}/score/`, data)
+
+  return response.data;
+}
 
 
-const scoreHole = async (id, body) => {
-  const response = await api.post(`/match/${id}/`, body)
+const awardBonus = async (bonusPoints) => {
+
+  const data = bonusPoints;
+  const response = await api.post(`/match/bonus/`, data)
+
   return response.data;
 }
 
@@ -50,6 +56,7 @@ const MatchService = {
   updateMatchTeams,
   getScorecards,
   scoreHole,
+  awardBonus,
 };
 
 export default MatchService;

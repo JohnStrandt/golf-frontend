@@ -3,7 +3,8 @@ import {
   UPDATE_MATCH_TEAMS,
   GET_SCORECARDS,
   SET_MESSAGE,
-  SCORE_HOLE
+  SCORE_HOLE,
+  AWARD_BONUS
 } from "./types";
 import MatchService from "../services/matchService";
 
@@ -70,7 +71,7 @@ export const getScorecards = (id, teamOne, teamTwo) => (dispatch) => {
         type: GET_SCORECARDS,
         payload: {
           cards1: data.cards1,
-          cards2: data.cards1,
+          cards2: data.cards2,
           handicap: data.handicap
         }
       });
@@ -88,13 +89,17 @@ export const getScorecards = (id, teamOne, teamTwo) => (dispatch) => {
 };
 
 
-
-export const scoreHole = (body) => (dispatch) => {
-  return MatchService.scoreHole(body).then(
+export const scoreHole = (id, holeScores) => (dispatch) => {
+  return MatchService.scoreHole(id, holeScores).then(
     (data) => {
 
       dispatch({
-        type: SCORE_HOLE
+        type: SCORE_HOLE,
+        payload: {
+          match: data.match,
+          cards1: data.cards1,
+          cards2: data.cards2
+        }
       });
       return Promise.resolve();
     },
@@ -105,9 +110,36 @@ export const scoreHole = (body) => (dispatch) => {
           error.response.data.message) ||
         error.message ||
         error.toString();
-      // dispatch({
-      //   type: LOGIN_FAIL,
-      // });
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
+      return Promise.reject();
+    }
+  );
+};
+
+
+export const awardBonus = (bonusPoints) => (dispatch) => {
+  return MatchService.awardBonus(bonusPoints).then(
+    (data) => {
+
+      dispatch({
+        type: AWARD_BONUS,
+        payload: {
+          cards1: data.cards1,
+          cards2: data.cards2
+        }
+      });
+      return Promise.resolve();
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
       dispatch({
         type: SET_MESSAGE,
         payload: message,

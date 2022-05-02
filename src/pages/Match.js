@@ -3,74 +3,93 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 
-
 import {
   NO_DATA,
   MATCH_FOUND,
   PLAYERS_SELECTED,
   MATCH_UPDATED,
-  CARDS_READY,
+  SCORING,
+  MATCH_OVER
 } from "../redux/actions/types";
 
-import { 
-  getTodaysMatch, 
-  updateMatchTeams, 
-  getScorecards 
+import {
+  getTodaysMatch,
+  updateMatchTeams,
+  getScorecards
 } from "../redux/actions/match";
 
-import { SelectPlayers, ScoreMatch } from "../components";
+import { SelectPlayers, ScoreMatch, FinalScore } from "../components";
 
 const Match = () => {
-  const {
-    loading,
-    match_state,
-    match,
-    holes,
-  } = useSelector((state) => state.match);
+  const { match_state, match, loading } = useSelector(
+    (state) => state.match
+  );
 
   const { message } = useSelector((state) => state.message);
   const [teamOnePlayers, setTeamOnePlayers] = useState({});
   const [teamTwoPlayers, setTeamTwoPlayers] = useState({});
-
+  
   const dispatch = useDispatch();
 
+  let side_played = '';
+  if (match.event) side_played = match.event.side_played;
 
-  useEffect(() => {   //  STATE MACHINE
+  let last_hole = 18;
+  if (side_played === "Front") last_hole = 9;
+
+  useEffect(() => {
+    //                    STATE MACHINE
 
     if (match_state === NO_DATA) {
       dispatch(getTodaysMatch());
-    
-    }else if (match_state === PLAYERS_SELECTED) {
+    } else if (match_state === PLAYERS_SELECTED) {
       dispatch(updateMatchTeams(match.id, teamOnePlayers, teamTwoPlayers));
-    
-    }else if (match_state === MATCH_UPDATED) {
-      dispatch(getScorecards(match.id, match.team1, match.team2))
-
+    } else if (match_state === MATCH_UPDATED) {
+      dispatch(getScorecards(match.id, match.team1, match.team2));
+    } else {
+      console.log("Hiii Daaaaan");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [match_state])
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [match_state]);
+
+  if (match.current_hole && match_state === SCORING && match.current_hole > last_hole)
+      dispatch({type: MATCH_OVER});
 
 
   return (
+  
     <Page>
 
-      {/* need a next/no match page here */}
+    {loading ? (
+      <div>
+          <p>loading...</p>
+      </div>
+      
+    ) : (
+      <>
+
       {match_state === NO_DATA && message && <p>{message}</p>}
 
       {match_state === MATCH_FOUND && (
-        <SelectPlayers 
-        setTeamOnePlayers = {setTeamOnePlayers}
-        setTeamTwoPlayers = {setTeamTwoPlayers}
+        <SelectPlayers
+        setTeamOnePlayers={setTeamOnePlayers}
+        setTeamTwoPlayers={setTeamTwoPlayers}
         />
       )}
 
-      {match_state === CARDS_READY && (
-        <ScoreMatch /> 
-      )}
+      {match_state === SCORING && <ScoreMatch />}
+
+      {match_state === MATCH_OVER && <FinalScore />}
+
+      </>
+    )}
 
     </Page>
-  );
+
+  )
+
+
 };
 
 const Page = styled.div`
