@@ -1,8 +1,11 @@
 import {
+  SET_MESSAGE,
   FETCH_TODAYS_MATCH,
+  SET_MATCH_NOT_FOUND,
+  FETCH_NEXT_MATCH,
+  SET_NO_MATCH_SCHEDULED,
   UPDATE_MATCH_TEAMS,
   GET_SCORECARDS,
-  SET_MESSAGE,
   SCORE_HOLE,
   AWARD_BONUS
 } from "./types";
@@ -13,7 +16,6 @@ export const getTodaysMatch = () => (dispatch) => {
 
   return MatchService.getTodaysMatch().then(
     (data) => {
-
       dispatch({
         type: FETCH_TODAYS_MATCH,
         payload: {
@@ -28,14 +30,55 @@ export const getTodaysMatch = () => (dispatch) => {
       return Promise.resolve();
     },
     (error) => {
-      const message = "Sorry, no match found for today";
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
       dispatch({
         type: SET_MESSAGE,
-        payload: message
+        payload: message,
+      });
+      dispatch({
+        type: SET_MATCH_NOT_FOUND,
       });
       return Promise.reject();
     }
-  )
+  );
+};
+
+
+export const getNextMatch = () => (dispatch) => {
+
+  return MatchService.getNextMatch().then(
+    (data) => {
+
+      dispatch({
+        type: FETCH_NEXT_MATCH,
+        payload: {
+          match: data,
+        }
+      });
+      return Promise.resolve();
+    },
+    (error) => {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      dispatch({
+        type: SET_MESSAGE,
+        payload: message,
+      });
+      dispatch({
+        type: SET_NO_MATCH_SCHEDULED,
+      });
+      return Promise.reject();
+    }
+  );
 };
 
 
@@ -59,7 +102,7 @@ export const updateMatchTeams = (id, teamOne, teamTwo) => (dispatch) => {
       });
       return Promise.reject();
     }
-  )
+  );
 };
 
 
@@ -85,7 +128,7 @@ export const getScorecards = (id, teamOne, teamTwo) => (dispatch) => {
       });
       return Promise.reject();
     }
-  )
+  );
 };
 
 
@@ -120,8 +163,8 @@ export const scoreHole = (id, holeScores) => (dispatch) => {
 };
 
 
-export const awardBonus = (bonusPoints) => (dispatch) => {
-  return MatchService.awardBonus(bonusPoints).then(
+export const awardBonus = (id, bonusPoints) => (dispatch) => {
+  return MatchService.awardBonus(id, bonusPoints).then(
     (data) => {
 
       dispatch({

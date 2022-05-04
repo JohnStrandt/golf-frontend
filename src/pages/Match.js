@@ -6,6 +6,9 @@ import styled from "styled-components";
 import {
   NO_DATA,
   MATCH_FOUND,
+  MATCH_NOT_FOUND,
+  NEXT_MATCH_FOUND,
+  NO_MATCH_SCHEDULED,
   PLAYERS_SELECTED,
   MATCH_UPDATED,
   SCORING,
@@ -14,14 +17,19 @@ import {
 
 import {
   getTodaysMatch,
+  getNextMatch,
   updateMatchTeams,
   getScorecards
 } from "../redux/actions/match";
 
 import { SelectPlayers, ScoreMatch, FinalScore } from "../components";
 
+
+
 const Match = () => {
-  const { match_state, match, loading } = useSelector(
+
+
+  const { loading, match_state, match } = useSelector(
     (state) => state.match
   );
 
@@ -37,24 +45,29 @@ const Match = () => {
   let last_hole = 18;
   if (side_played === "Front") last_hole = 9;
 
+
   useEffect(() => {
     //                    STATE MACHINE
 
     if (match_state === NO_DATA) {
-      dispatch(getTodaysMatch());
+      dispatch(getTodaysMatch())
+    } else if (match_state === MATCH_NOT_FOUND) {
+      dispatch(getNextMatch());
     } else if (match_state === PLAYERS_SELECTED) {
       dispatch(updateMatchTeams(match.id, teamOnePlayers, teamTwoPlayers));
     } else if (match_state === MATCH_UPDATED) {
       dispatch(getScorecards(match.id, match.team1, match.team2));
     } else {
-      console.log("Hiii Daaaaan");
+      console.log("Some other State");
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match_state]);
 
+
   if (match.current_hole && match_state === SCORING && match.current_hole > last_hole)
       dispatch({type: MATCH_OVER});
+
 
 
   return (
@@ -67,9 +80,24 @@ const Match = () => {
       </div>
       
     ) : (
+
       <>
 
-      {match_state === NO_DATA && message && <p>{message}</p>}
+      {match_state === NEXT_MATCH_FOUND && (
+        <>
+        <p>{match.event.date}</p>
+        <p>{match.event.course.name} {match.event.side_played}</p>
+        <p>{match.team1_name} VS {match.team2_name}</p>
+        </>
+      )}
+
+      {(match_state === MATCH_NOT_FOUND || match_state === NO_MATCH_SCHEDULED )
+      && message && (
+        <>
+        <p>{message}</p>
+        <p>{match_state}</p>
+        </>
+      )}  
 
       {match_state === MATCH_FOUND && (
         <SelectPlayers
@@ -83,6 +111,7 @@ const Match = () => {
       {match_state === MATCH_OVER && <FinalScore />}
 
       </>
+
     )}
 
     </Page>

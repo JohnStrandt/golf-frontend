@@ -17,6 +17,7 @@ export const LOGOUT = "LOGOUT";
 
 // api calls
 export const FETCH_TODAYS_MATCH = "FETCH_TODAYS_MATCH";
+export const FETCH_NEXT_MATCH = "FETCH_NEXT_MATCH";
 export const UPDATE_MATCH_TEAMS = "UPDATE_MATCH_TEAMS";
 export const GET_SCORECARDS = "GET_SCORECARDS";// get_or_create
 
@@ -26,6 +27,9 @@ export const AWARD_BONUS = "AWARD_BONUS";
 // state machine constants in match.js
 export const NO_DATA = "NO_DATA";
 export const MATCH_FOUND = "MATCH_FOUND";
+export const MATCH_NOT_FOUND = "MATCH_NOT_FOUND";
+export const NEXT_MATCH_FOUND = "NEXT_MATCH_FOUND";
+export const NO_MATCH_SCHEDULED = "NO_MATCH_SCHEDULED";
 export const PLAYERS_SELECTED = "PLAYERS_SELECTED";
 export const MATCH_UPDATED = "MATCH_UPDATED";
 export const SCORING = "SCORING";
@@ -33,6 +37,9 @@ export const MATCH_OVER = "MATCH_OVER";
 
 
 export const SET_LOADING = "SET_LOADING";
+export const SET_MATCH_NOT_FOUND = "SET_MATCH_NOT_FOUND";
+export const SET_NO_MATCH_SCHEDULED = "SET_NO_MATCH_SCHEDULED";
+
 
 // MESSAGE
 export const SET_MESSAGE = "SET_MESSAGE";

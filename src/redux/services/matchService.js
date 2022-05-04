@@ -2,7 +2,14 @@ import api from "./api";
 
 
 const getTodaysMatch = async () => {
-  const response = await api.get("/match/")
+  const response = await api.get("/match/");
+  return response.data;
+};
+
+
+const getNextMatch = async () => {
+  const response = await api.get("/match/next/");
+  console.log("response ", response)
   return response.data;
 };
 
@@ -42,10 +49,10 @@ const scoreHole = async (id, holeScores) => {
 }
 
 
-const awardBonus = async (bonusPoints) => {
+const awardBonus = async (id, bonusPoints) => {
 
   const data = bonusPoints;
-  const response = await api.post(`/match/bonus/`, data)
+  const response = await api.post(`/match/${id}/bonus/`, data)
 
   return response.data;
 }
@@ -53,6 +60,7 @@ const awardBonus = async (bonusPoints) => {
 
 const MatchService = {
   getTodaysMatch,
+  getNextMatch,
   updateMatchTeams,
   getScorecards,
   scoreHole,

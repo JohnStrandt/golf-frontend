@@ -1,13 +1,19 @@
 import {
   FETCH_TODAYS_MATCH,
+  FETCH_NEXT_MATCH,
   UPDATE_MATCH_TEAMS,
   GET_SCORECARDS,
 
   SET_LOADING,
+  SET_MATCH_NOT_FOUND,
+  SET_NO_MATCH_SCHEDULED,
 
   // state machine types
   NO_DATA,
   MATCH_FOUND,
+  MATCH_NOT_FOUND,
+  NEXT_MATCH_FOUND,
+  NO_MATCH_SCHEDULED,
   PLAYERS_SELECTED,
   MATCH_UPDATED,
   SCORING,
@@ -39,6 +45,18 @@ export const match = (state = initialState, action) => {
         ...state,
         loading: true
       };
+    case SET_MATCH_NOT_FOUND:
+      return {
+        ...state,
+        match_state: MATCH_NOT_FOUND,
+        loading: false
+      };
+    case SET_NO_MATCH_SCHEDULED:
+      return {
+        ...state,
+        match_state: NO_MATCH_SCHEDULED,
+        loading: false
+      };
     case MATCH_OVER:
       return {
         ...state,
@@ -69,6 +87,14 @@ export const match = (state = initialState, action) => {
         subs1: payload.subs1,
         subs2: payload.subs2,
         match_state: MATCH_STATE,
+        loading: false,
+        error: null
+      };
+    case FETCH_NEXT_MATCH:
+      return {
+        ...state,
+        match: payload.match,
+        match_state: NEXT_MATCH_FOUND,
         loading: false,
         error: null
       };
