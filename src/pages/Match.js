@@ -22,7 +22,7 @@ import {
   getScorecards
 } from "../redux/actions/match";
 
-import { SelectPlayers, ScoreMatch, FinalScore } from "../components";
+import { UpcomingMatches, SelectPlayers, ScoreMatch, FinalScore } from "../components";
 
 
 
@@ -64,8 +64,8 @@ const Match = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [match_state]);
 
-
-  if (match.current_hole && match_state === SCORING && match.current_hole > last_hole)
+  // match.current_hole && ...
+  if (match_state === SCORING && match.current_hole > last_hole)
       dispatch({type: MATCH_OVER});
 
 
@@ -83,21 +83,10 @@ const Match = () => {
 
       <>
 
-      {match_state === NEXT_MATCH_FOUND && (
-        <>
-        <p>{match.event.date}</p>
-        <p>{match.event.course.name} {match.event.side_played}</p>
-        <p>{match.team1_name} VS {match.team2_name}</p>
-        </>
+      {/* simplify to MATCH_NOT_FOUND or NO_MATCH_TODAY? */}
+      {(match_state === NEXT_MATCH_FOUND || match_state === NO_MATCH_SCHEDULED) && (
+        <UpcomingMatches />
       )}
-
-      {(match_state === MATCH_NOT_FOUND || match_state === NO_MATCH_SCHEDULED )
-      && message && (
-        <>
-        <p>{message}</p>
-        <p>{match_state}</p>
-        </>
-      )}  
 
       {match_state === MATCH_FOUND && (
         <SelectPlayers
